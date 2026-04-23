@@ -1,48 +1,15 @@
 pipeline {
     agent any
 
-    tools {
-        maven 'Maven-3.9'
-        jdk 'JDK-11'
-    }
-
-    options {
-        failFast true
+    environment {
+        APP_ENV = "${env.BRANCH_NAME}"
     }
 
     stages {
-
-        stage('Checkout') {
+        stage('Print Env') {
             steps {
-                git 'https://your-repo-url.git'
+                echo "App Environment: ${env.APP_ENV}"
             }
-        }
-
-        stage('Build') {
-            steps {
-                sh 'mvn clean compile'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
-        }
-
-        stage('Package') {
-            steps {
-                sh 'mvn package'
-            }
-        }
-    }
-
-    post {
-        success {
-            echo 'Build Passed ✅'
-        }
-        failure {
-            echo 'Build Failed ❌ FIX IT NOW'
         }
     }
 }
